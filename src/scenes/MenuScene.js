@@ -14,7 +14,28 @@ class MenuScene extends BaseScene{
 
     create() {
         super.create();
-        this.createMenu(this.menu)
+        this.createMenu(this.menu, this.setupMenuEvents.bind(this))
+    }
+
+    setupMenuEvents(menuItem){
+        const textGameObject = menuItem.textGameObject;
+        textGameObject.setInteractive();
+        console.log(this);
+        textGameObject.on('pointerover', () => {
+            textGameObject.setStyle({fill: '#ff0'})
+        })
+        textGameObject.on('pointerout', () => {
+            textGameObject.setStyle({fill: '#fff'})
+        })
+        textGameObject.on('pointerup', () => {
+            textGameObject.setStyle({fill: '#0'})
+            menuItem.scene && this.scene.start(menuItem.scene);
+
+            if (menuItem.text === 'Exit') {
+                this.game.destroy(true);
+            }
+        })
+
     }
 }
 
